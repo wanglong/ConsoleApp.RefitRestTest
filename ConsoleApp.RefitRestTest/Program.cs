@@ -11,10 +11,9 @@ namespace ConsoleApp.RefitRestTest
         {
             Console.WriteLine("Main Thread Id: {0}\r\n", Thread.CurrentThread.ManagedThreadId);
             Console.WriteLine("Hello World!");
+            //Test();   
 
-            Test();   
-
-            //Test1();
+            Test1();
 
             Console.ReadLine();
         }
@@ -22,11 +21,15 @@ namespace ConsoleApp.RefitRestTest
         static async Task Test1()
         {
             Console.WriteLine("Before calling GetUser, Thread Id: {0}\r\n", Thread.CurrentThread.ManagedThreadId);
-            var userInfo = GetAsync();    //我们这里没有用 await,所以下面的代码可以继续执行
+            //var userInfo = GetAsync();    //我们这里没有用 await,所以下面的代码可以继续执行
                                           // 但是如果上面是 await GetAsync()，下面的代码就不会立即执行，输出结果就不一样了。
             Console.WriteLine("End calling GetUser.\r\n");
-            var octocat = await userInfo;
-            Console.WriteLine("Get result from GetUser octocat: {0}", octocat.Id +"  "+ octocat.Name);            
+            //var octocat = await userInfo;
+            //var gitHubApi = RestService.For<IGitHubApi>("https://api.github.com");
+            //var octocat = await gitHubApi.GetUserAsync("octocat");
+            var gitHubApi = RestService.For<IGitHubApi>("http://systemapi.test.e.womaiapp.com");
+            var octocat = await gitHubApi.GetBasicDepartmentListByStateAsync("1");
+            Console.WriteLine("Get result from GetUser octocat: {0}", octocat);            
         }
 
         static async Task<User> GetAsync()
